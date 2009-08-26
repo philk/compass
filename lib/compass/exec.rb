@@ -3,12 +3,15 @@ require 'optparse'
 require File.join(Compass.lib_directory, 'compass', 'logger')
 require File.join(Compass.lib_directory, 'compass', 'errors')
 require File.join(Compass.lib_directory, 'compass', 'actions')
+require File.join(Compass.lib_directory, 'compass', 'growl')
 
 module Compass
   module Exec
-
+    
     def report_error(e, options)
-      $stderr.puts "#{e.class} on line #{get_line e} of #{get_file e}: #{e.message}"
+      message = "#{e.class} on line #{get_line e} of #{get_file e}: #{e.message}"
+      $stderr.puts message
+      ::Compass.growl("Compass", message, false)
       if options[:trace]
         e.backtrace[1..-1].each { |t| $stderr.puts "  #{t}" }
       else

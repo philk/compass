@@ -13,7 +13,9 @@ module Compass
 
     # Record an action that has occurred
     def record(action, *arguments)
-      log "#{action_padding(action)}#{action} #{arguments.join(' ')}"
+      message = "#{action_padding(action)}#{action} #{arguments.join(' ')}"
+      log message
+      Compass.growl("Compass", message, true)
     end
 
     # Emit a log message

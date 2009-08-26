@@ -20,7 +20,9 @@ module Compass
           compiler = new_compiler_instance(:quiet => true)
           remove_obsolete_css(compiler)
           recompile(compiler)
-          sleep 1
+          # sleep 1
+          fsevent_path = File.join(Compass.base_directory, 'bin', 'fsevent_sleep')
+          `#{fsevent_path} #{Compass.configuration.project_path}`
         end
       end
 
