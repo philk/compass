@@ -11,7 +11,9 @@ module Compass
     def report_error(e, options)
       message = "#{e.class} on line #{get_line e} of #{get_file e}: #{e.message}"
       $stderr.puts message
-      ::Compass.growl("Compass", message, false)
+      if options[:growl]
+        ::Compass.growl("Compass", message, false)
+      end
       if options[:trace]
         e.backtrace[1..-1].each { |t| $stderr.puts "  #{t}" }
       else
@@ -72,6 +74,7 @@ module Compass
         self.options[:command] ||= self.options[:project_name] ? :create_project : :update_project
         self.options[:framework] ||= :compass
         self.options[:project_type] ||= :stand_alone
+        self.options[:growl] ||= false
       end
 
       def trim_trailing_separator(path)
@@ -159,6 +162,10 @@ END
 
         opts.on('-c', '--config CONFIG_FILE', 'Specify the location of the configuration file explicitly.') do |configuration_file|
           self.options[:configuration_file] = configuration_file
+        end
+        
+        opts.on('-g', '--growl', 'Enable Growl notifications') do |configuration_file|
+          self.options[:growl] = true
         end
 
         opts.on('--sass-dir SRC_DIR', "The source directory where you keep your sass stylesheets.") do |sass_dir|

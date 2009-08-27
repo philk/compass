@@ -15,6 +15,9 @@ module Compass
           exit 0
         end
         puts ">>> Compass is watching for changes. Press Ctrl-C to Stop."
+        if options[:growl]
+          ::Compass.growl("Compass", "Growl Initialized", true)
+        end
         loop do
           # TODO: Make this efficient by using filesystem monitoring.
           compiler = new_compiler_instance(:quiet => true)
