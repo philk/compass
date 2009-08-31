@@ -18,6 +18,19 @@ module Compass
         recompile
 
         puts ">>> Compass is watching for changes. Press Ctrl-C to Stop."
+<<<<<<< HEAD
+        if options[:growl]
+          ::Compass.growl("Compass", "Growl Initialized", true)
+        end
+        loop do
+          # TODO: Make this efficient by using filesystem monitoring.
+          compiler = new_compiler_instance(:quiet => true)
+          remove_obsolete_css(compiler)
+          recompile(compiler)
+          # sleep 1
+          fsevent_path = File.join(Compass.base_directory, 'bin', 'fsevent_sleep')
+          `#{fsevent_path} #{Compass.configuration.project_path}`
+=======
 
         require File.join(Compass.lib_directory, 'vendor', 'fssm')
 
@@ -27,11 +40,12 @@ module Compass
               path.glob '**/*.sass'
 
               path.update &method(:recompile)
-              path.delete {|base, relative| remove_obsolete_css(base,relative); recompile(base,relative) }
+              path.delete {|base, relative| remove_obsolete_css(base,relative); recompile(base, relative)}
               path.create &method(:recompile)
             end
           end
 
+>>>>>>> master
         end
         
       end

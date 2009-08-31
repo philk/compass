@@ -27,7 +27,7 @@ module Compass
               path.glob '**/*.sass'
 
               path.update &method(:recompile)
-              path.delete {|base, relative| remove_obsolete_css(base,relative); recompile(base,relative) }
+              path.delete {|base, relative| remove_obsolete_css(base,relative); recompile(base, relative)}
               path.create &method(:recompile)
             end
           end
