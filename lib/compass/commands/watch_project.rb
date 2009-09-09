@@ -18,7 +18,9 @@ module Compass
         recompile
 
         puts ">>> Compass is watching for changes. Press Ctrl-C to Stop."
-
+        if options[:growl]
+          ::Compass.growl("Compass", "Growl Initialized", true)
+        end
         require File.join(Compass.lib_directory, 'vendor', 'fssm')
 
         FSSM.monitor do |monitor|
